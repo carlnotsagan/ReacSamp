@@ -1,0 +1,191 @@
+&star_job
+
+      mesa_dir =''
+      create_pre_main_sequence_model = .true.  
+      pre_ms_relax_num_steps = 50
+      kappa_file_prefix = 'gs98'
+      change_lnPgas_flag = .false.
+      new_lnPgas_flag = .false.
+
+      ! change to 49 isotope network
+      change_net = .true.   
+      new_net_name = 'mesa_49.net'
+      
+      ! set initial values
+      set_initial_age = .true.
+      initial_age = 0 ! in years
+      set_initial_model_number = .true.
+      initial_model_number = 0
+      
+      ! save snapshot at run termination 
+      save_model_when_terminate = .true.
+      save_model_filename = '3M_ZAMS_wd.mod'
+      save_photo_when_terminate = .true.
+      show_net_reactions_info = .true.
+      list_net_reactions = .true.
+
+      ! sparse history / profile columns
+      history_columns_file = '/home/cefields/wd/base/history_columns.list'
+      profile_columns_file = '/home/cefields/wd/base/profile_columns.list'
+
+      write_profile_when_terminate = .true.
+      filename_for_profile_when_terminate = '3M_ZAMS_wd.dat'
+
+      ! STARLIB FLAGS
+      rates_cache_dir = './cache'
+      rate_tables_dir = './rate_tables'
+
+
+/ ! end of star_job namelist
+
+&controls
+
+       initial_mass = 3d0     ! in Msun units
+       initial_z = 0.020    ! Solar Metallicity 
+       envelope_mass_limit = 1d-2
+
+       photostep = 2500
+       profile_interval =  1000000000
+       history_interval = 1
+       terminal_cnt = 500
+       write_header_frequency = 1000
+
+! opacities
+      use_Type2_opacities = .true.
+      Zbase = 0.02
+
+! winds
+
+      RGB_wind_scheme = 'Reimers'
+      AGB_wind_scheme = 'Blocker'
+      RGB_to_AGB_wind_switch = 1d-4
+      Reimers_wind_eta = 0.7d0  
+      Blocker_wind_eta = 0.7d0  
+
+
+! resolution
+
+       mesh_delta_coeff = 0.5
+       max_allowed_nz = 400000
+       min_timestep_factor = 0
+       max_timestep_factor = 1.2d0
+
+! resolution
+
+      mesh_logX_species(1) = 'h1' 
+      mesh_logX_min_for_extra(1) = -1 
+      mesh_dlogX_dlogP_extra(1) = 0.5
+      mesh_dlogX_dlogP_full_on(1) = 0
+      mesh_dlogX_dlogP_full_off(1) = -1
+
+      mesh_logX_species(2) = 'he4' 
+      mesh_logX_min_for_extra(2) = -1 
+      mesh_dlogX_dlogP_extra(2) = 0.5
+      mesh_dlogX_dlogP_full_on(2) = 0
+      mesh_dlogX_dlogP_full_off(2) = -1
+
+      mesh_dlog_pp_dlogP_extra = 0.5
+      xa_mesh_delta_coeff(1) = 0.5
+      xa_mesh_delta_coeff(2) = 0.5
+
+      varcontrol_target = 1d-4
+
+
+
+! MS Resolution
+
+      delta_lg_XH_cntr_limit = 0.01d0
+      delta_lg_XH_cntr_max   = 0.0d0
+      delta_lg_XH_cntr_min   = -6.0d0
+      delta_lg_XH_cntr_hard_limit = 0.02d0
+
+      delta_lg_XHe_cntr_limit = 0.01d0
+      delta_lg_XHe_cntr_max   = 0.0d0
+      delta_lg_XHe_cntr_min   = -6.0d0
+      delta_lg_XHe_cntr_hard_limit = 0.02d0
+
+      delta_lg_XC_cntr_limit = 0.01d0
+      delta_lg_XC_cntr_max   = 0.0d0
+      delta_lg_XC_cntr_min   = -6.0d0
+      delta_lg_XC_cntr_hard_limit = 0.02d0
+
+      delta_lg_XNe_cntr_limit = 0.01d0
+      delta_lg_XNe_cntr_max   = 0.0d0
+      delta_lg_XNe_cntr_min   = -6.0d0
+      delta_lg_XNe_cntr_hard_limit = 0.02d0
+
+      delta_lg_XO_cntr_limit = 0.01d0
+      delta_lg_XO_cntr_max   = 0.0d0
+      delta_lg_XO_cntr_min   = -6.0d0
+      delta_lg_XO_cntr_hard_limit = 0.02d0
+
+      delta_lg_XSi_cntr_limit = 0.01d0
+      delta_lg_XSi_cntr_max   = 0.0d0
+      delta_lg_XSi_cntr_min   = -6.0d0
+      delta_lg_XSi_cntr_hard_limit = 0.02d0
+
+      ! this is mainly to resolve properly when the star goes off the main sequence
+      delta_HR_limit = 0.0025d0
+      delta_lgL_He_limit = 0.1
+
+
+
+! overshoot
+
+
+            ! For nonburning regions.
+
+         overshoot_f_above_nonburn_core = 0.022
+         overshoot_f0_above_nonburn_core = 0.006
+         overshoot_f_above_nonburn_shell = 0.022
+         overshoot_f0_above_nonburn_shell = 0.006
+         overshoot_f_below_nonburn_shell = 0.022
+         overshoot_f0_below_nonburn_shell = 0.006
+
+            ! For hydrogen burning regions.
+
+         overshoot_f_above_burn_h_core = 0.022
+         overshoot_f0_above_burn_h_core = 0.006
+         overshoot_f_above_burn_h_shell = 0.022
+         overshoot_f0_above_burn_h_shell = 0.006
+         overshoot_f_below_burn_h_shell = 0.022
+         overshoot_f0_below_burn_h_shell = 0.006
+
+            ! For helium burning regions.
+
+         overshoot_f_above_burn_he_core = 0.022
+         overshoot_f0_above_burn_he_core = 0.006
+         overshoot_f_above_burn_he_shell = 0.022
+         overshoot_f0_above_burn_he_shell = 0.006
+         overshoot_f_below_burn_he_shell = 0.022
+         overshoot_f0_below_burn_he_shell = 0.006
+
+
+            ! For metals burning regions.
+
+         overshoot_f_above_burn_z_core = 0.022
+         overshoot_f0_above_burn_z_core = 0.006
+         overshoot_f_above_burn_z_shell = 0.022
+         overshoot_f0_above_burn_z_shell = 0.006
+         overshoot_f_below_burn_z_shell = 0.022
+         overshoot_f0_below_burn_z_shell = 0.006
+
+         overshoot_below_noburn_shell_factor = 1
+
+         D_mix_ov_limit = 1d2
+
+         use_Ledoux_criterion = .true.
+
+! semiconvection
+
+      alpha_semiconvection = 1d-2
+      semiconvection_option = 'Langer_85 mixing; gradT = gradr'
+
+
+! thermohaline
+
+      thermohaline_coeff = 1d0
+      thermohaline_option = 'Kippenhahn'
+
+/ ! end of controls namelist
+

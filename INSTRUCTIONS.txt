@@ -1,0 +1,36 @@
+STEPS
+
+1. Replace 'default_work_dir' with your appropriate baseline MESA directory.
+   The example here uses the 3M model input physics from Fields et al. 2016.
+   The 'rates_tables/rates_list.txt' MUST list the rate you wish to sample 
+   and the text file containing your to be generated sampled rate.
+
+2. Edit the 'reac_samp.py' file to adjust the rates you will include in 
+   your sampling scheme. Nomenclature in example follows the MESA reaction
+   handles found in 'mesa/data/rates_data/reactions.list' and 
+   'mesa/rates/private/rates_names.f90'. The example samples the 12C(a,g)16O
+   reaction.
+
+3. Provide the raw STARLIB rate data for the rates in your scheme and place
+   in 'starlib_raw_rates' with naming following MESA nomenclature. The
+   example includes the raw STARLIB rate data for the 12C(a,g)16O
+   reaction.
+
+4. Execute reac_samp.make_dirs(n),reac_samp.make_var_rates(n) where 'n' is the 
+   number of samples in your scheme. 
+
+OUTPUT
+
+'rate_varitation_factors.txt' the random numbers used for the i'th sampled model.
+
+- The first column is the number of the rate used in your scheme, 0->M for M sampled         rates. In the example, only 12C(a,g)16O was sampled, so '0' corresponds to the   12C(a,g)16O.
+
+- The second column is the random number that is used to generate the i'th sample for the M'th reaction.
+
+'example_grid/' grid of monte carlo stellar models each with a set of 'rate_tables' containing sampled rates to be read by MESA for each individual run.
+
+'reac_samp_example.pdf' a diagram generated once 'c12_ag_o16_example.py' is generated to show the sampled rates for 12C(a,g)16O compared to the median value in STARLIB.
+
+
+
+
