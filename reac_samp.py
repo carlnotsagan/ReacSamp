@@ -22,20 +22,27 @@
 
 ### Imports
 import numpy as np
-import shutil,os,sys,re
+import shutil,subprocess,os
 from os import remove, close
 from tempfile import mkstemp
 from shutil import move
+from shutil import copyfile
 
 
 # EDIT THIS TO CHANGE WHICH RATES ARE IN YOUR SCHEME
 # THIS EXAMPLE ONLY SAMPLES THE C12(A,G)O16 REACTION
-
+'''
 rates_list = [
 'r_c12_ag_o16',\
 ]
+'''
 
-
+rates_list = []
+subprocess.call(['./get_rate_labels.sh']) 
+with open("rate_labels.txt") as f:
+    rates_list = [line.rstrip() for line in f]    
+os.remove('rate_labels.txt')
+    
 """
 # SAMPLING SCHEME USED IN FIELDS ET AL. 2016, APJ - http://arxiv.org/abs/1603.06666
 rates_list = [
@@ -89,6 +96,7 @@ def replace(file_path, pattern, subst):
 
 # copy default directory and number it according to i'th variant
 def make_dirs(N_var):
+        copyfile('./starlib_raw_rates/rates_list.txt','./default_work_dir/rate_tables/rates_list.txt' )
 	for i in range(1,N_var+1):
         	shutil.copytree('default_work_dir','example_grid/'+str(i))
 	return
@@ -111,7 +119,7 @@ def make_var_rates(N_var):
 	samp_ind = []
 	for i in range(1,N_var+1):
 		for j in range(len(rates_list)):
-			data=(np.loadtxt('starlib_raw_rates/'+str(rates_list[j])+'.txt',dtype=float, usecols=(0, 1,2)))
+			data=(np.loadtxt('starlib_raw_rates/'+str(rates_list[j])+'.txt',dtype=float, usecols=(0, 1,2),skiprows=1))
 			t9=(10.*data[:,0])
 			rr=(data[:,1])
 			fu=(data[:,2])
@@ -128,7 +136,5 @@ def make_var_rates(N_var):
 	np.savetxt('rate_varitation_factors.txt', np.column_stack([samp_ind, rec]),fmt=['%i',' %1.8f\t'])
 	return
 
-
-
-
+make_dirs(50),make_var_rates(50)
 
