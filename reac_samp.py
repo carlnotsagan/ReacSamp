@@ -29,14 +29,7 @@ from shutil import move
 from shutil import copyfile
 
 
-# EDIT THIS TO CHANGE WHICH RATES ARE IN YOUR SCHEME
-# THIS EXAMPLE ONLY SAMPLES THE C12(A,G)O16 REACTION
-'''
-rates_list = [
-'r_c12_ag_o16',\
-]
-'''
-
+# Assumes rates to be included in sampling scheme are listed in './starlib_raw_rates/rates_list.txt'
 rates_list = []
 subprocess.call(['./get_rate_labels.sh']) 
 with open("rate_labels.txt") as f:
@@ -136,5 +129,4 @@ def make_var_rates(N_var):
 	np.savetxt('rate_varitation_factors.txt', np.column_stack([samp_ind, rec]),fmt=['%i',' %1.8f\t'])
 	return
 
-make_dirs(50),make_var_rates(50)
 
